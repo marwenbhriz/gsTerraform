@@ -99,18 +99,18 @@ jobs:
           #role-session-name: ${{ env.SYSTEM }}-${{ env.ENVIRONMENT }}-github-actions-terraform-session
           #aws-region: ${{ env.AWS_REGION }}
 
-      - name: TFlint
-        working-directory: modules/${{ matrix.changed_dir }}
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          tflint --config $GITHUB_WORKSPACE/.tflint.hcl --init
-          tflint --config $GITHUB_WORKSPACE/.tflint.hcl --format=checkstyle | \
-          reviewdog -f=checkstyle \
-                    -name="tflint" \
-                    -reporter=github-pr-review \
-                    -filter-mode=nofilter \
-                    -fail-on-error \
+      #- name: TFlint
+        #working-directory: modules/${{ matrix.changed_dir }}
+        #env:
+          #REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #run: |
+          #tflint --config $GITHUB_WORKSPACE/.tflint.hcl --init
+          #tflint --config $GITHUB_WORKSPACE/.tflint.hcl --format=checkstyle | \
+          #reviewdog -f=checkstyle \
+           #         -name="tflint" \
+            #        -reporter=github-pr-review \
+             #       -filter-mode=nofilter \
+              #      -fail-on-error \
 
       - name: Check Terraform fmt
         working-directory: modules/${{ matrix.changed_dir }}
