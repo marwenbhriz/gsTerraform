@@ -1,0 +1,11 @@
+hello:
+  - 'modules/hello/**'
+
+address:
+  - 'modules/address/**'
+
+gcr:
+  - 'modules/gcr/**'
+
+network:
+  - 'modules/network/**'

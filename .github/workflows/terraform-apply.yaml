@@ -29,8 +29,8 @@ jobs:
       - name: Get changed modules dirs
         uses: dorny/paths-filter@v2
         id: modules_changes
-        #with:
-          #filters: .github/modules-path-filter.yaml
+        with:
+          filters: .github/modules-path-filter.yaml
 
       - name: setup terraform
         uses: hashicorp/setup-terraform@v2
@@ -67,7 +67,7 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: terraform plan 
 
-      - name: Terraform apply
+      - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
