@@ -20,22 +20,22 @@ jobs:
     uses: ./.github/workflows/_notify_started.yaml
     secrets: inherit
   
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
+  #setup:
+    #runs-on: ubuntu-latest
+    #steps:
+      #- name: checkout
+        #uses: actions/checkout@v3
       
-      - name: Get changed modules dirs
-        uses: dorny/paths-filter@v2
-        id: modules_changes
-        with:
-          filters: .github/modules-path-filter.yaml
+      #- name: Get changed modules dirs
+        #uses: dorny/paths-filter@v2
+        #id: modules_changes
+        #with:
+          #filters: .github/modules-path-filter.yaml
 
-      - name: setup terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.2.9
+      #- name: setup terraform
+        #uses: hashicorp/setup-terraform@v2
+        #with:
+          #terraform_version: 1.2.9
 
       #- name: setup tflint
         #env:
@@ -54,14 +54,7 @@ jobs:
           #          -filter-mode=nofilter \
           #          -fail-on-error \
 
-      - name: setup tfcmt
-        env:
-          TFCMT_VERSION: v3.4.1
-        run: |
-          wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
-          tar xzf /tmp/tfcmt.tar.gz -C /tmp
-          mv /tmp/tfcmt /usr/local/bin
-          tfcmt --version
+      
 
   modules-ci:
     needs: setup
@@ -72,8 +65,27 @@ jobs:
       #matrix:
         #changed_dir: ${{ fromJson(needs.setup.outputs.modules_changed_dirs) }}
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v3
+      - name: Get changed modules dirs
+        uses: dorny/paths-filter@v2
+        id: modules_changes
+        with:
+          filters: .github/modules-path-filter.yaml
+
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.9
+      
+      - name: setup tfcmt
+        env:
+          TFCMT_VERSION: v3.4.1
+        run: |
+          wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
+          tar xzf /tmp/tfcmt.tar.gz -C /tmp
+          mv /tmp/tfcmt /usr/local/bin
+          tfcmt --version
 
       - name: terraform init
         run: terraform init
