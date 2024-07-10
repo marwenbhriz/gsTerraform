@@ -20,11 +20,6 @@ jobs:
     uses: ./.github/workflows/_notify_started.yaml
     secrets: inherit
   
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      modules_changed_dirs: ${{ steps.modules_changes.outputs.changes }}
-      
   terraform_plan:
     runs-on: ubuntu-latest
     steps:
