@@ -20,11 +20,17 @@ jobs:
     uses: ./.github/workflows/_notify_started.yaml
     secrets: inherit
   
-  terraform_plan:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
+      
+      - name: Get changed modules dirs
+        uses: dorny/paths-filter@v2
+        id: modules_changes
+        with:
+          filters: .github/modules-path-filter.yaml
 
       - name: setup terraform
         uses: hashicorp/setup-terraform@v2
@@ -62,3 +68,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: tfcmt plan -patch -- terraform plan -no-color -input=false
+
+  modules-ci:
+    needs: setup
+    if: needs.setup.outputs.modules_changed_dirs != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        changed_dir: ${{ fromJson(needs.setup.outputs.modules_changed_dirs) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
