@@ -17,52 +17,11 @@ permissions:
 jobs:
   notify-started:
     uses: ./.github/workflows/_notify_started.yaml
-    secrets: inherit
-  
-  #setup:
-    #runs-on: ubuntu-latest
-    #steps:
-      #- name: checkout
-        #uses: actions/checkout@v3
-      
-      #- name: Get changed modules dirs
-        #uses: dorny/paths-filter@v2
-        #id: modules_changes
-        #with:
-          #filters: .github/modules-path-filter.yaml
-
-      #- name: setup terraform
-        #uses: hashicorp/setup-terraform@v2
-        #with:
-          #terraform_version: 1.2.9
-
-      #- name: setup tflint
-        #env:
-          #TFCMT_VERSION: v3.4.1
-        #run: |
-          #wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
-          #tar xzf /tmp/tfcmt.tar.gz -C /tmp
-          #mv /tmp/tfcmt /usr/local/bin
-          #tfcmt --version
-        #run: |
-          #tflint --config $GITHUB_WORKSPACE/.tflint.hcl --init
-          #tflint --config $GITHUB_WORKSPACE/.tflint.hcl --format=checkstyle | \
-          #reviewdog -f=checkstyle \
-          #          -name="tflint" \
-          #          -reporter=github-pr-review \
-          #          -filter-mode=nofilter \
-          #          -fail-on-error \
-
-      
+    secrets: inherit      
 
   terraform-apply:
     needs: notify-started
-    #if: needs.setup.outputs.modules_changed_dirs != '[]'
     runs-on: ubuntu-latest
-    #strategy:
-      #fail-fast: false
-      #matrix:
-        #changed_dir: ${{ fromJson(needs.setup.outputs.modules_changed_dirs) }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
