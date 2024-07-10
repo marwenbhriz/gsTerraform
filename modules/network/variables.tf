@@ -1,11 +1,11 @@
 variable "network_name" {
   type = string
-  default = "benhriz-vpc"
+  default = "githubaction-vpc"
 }
 
 variable "subnetwork_name" {
   type = string
-  default = "benhriz-subnetwork"
+  default = "githubaction-subnetwork"
 }
 
 variable "ip_cidr_range" {

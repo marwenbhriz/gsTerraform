@@ -4,9 +4,9 @@ module "hello" {
 }
 
 // import pubsub module
-module "pubsub" {
-  source       = "./modules/pubsub"
-}
+#module "pubsub" {
+#  source       = "./modules/pubsub"
+#}
 
 // import address module
 module "address" {
@@ -29,6 +29,7 @@ module "gcr" {
 }
 
 // import gcs module
+/*
 module "gcs" {
   source       = "./modules/gcs"
   project_region = var.accounts.region
@@ -45,3 +46,4 @@ module "gke" {
 
   depends_on = [ module.pubsub, module.network ]
 }
+*/
