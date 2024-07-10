@@ -8,6 +8,6 @@ variable "project_region" {
 
 variable "repository_id" {
   type = string
-  default = "benhriz-upstream-repo"
+  default = "upstream-repo"
 }
 
