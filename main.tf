@@ -1,5 +1,4 @@
-resource "null_resource" "default" {
-  provisioner "local-exec" {
-    command = "echo 'Hello Terraform'"
-  }
+// import hello module
+module "hello" {
+  source       = "./modules/hello"
 }

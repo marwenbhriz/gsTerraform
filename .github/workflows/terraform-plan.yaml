@@ -38,29 +38,29 @@ jobs:
         uses: dorny/paths-filter@v2
         id: modules_changes
         with:
-          filters: .github/modules-path-filter.yml
+          filters: .github/modules-path-filter.yaml
 
-      - name: Get changed envs dirs
-        uses: dorny/paths-filter@v2
-        id: envs_changes
-        with:
-          filters: .github/envs-path-filter.yml
+      #- name: Get changed envs dirs
+      #  uses: dorny/paths-filter@v2
+      #  id: envs_changes
+      #  with:
+      #    filters: .github/envs-path-filter.yml
 
-      - name: Filter changed envs dirs
-        id: filter_changed_envs_dirs
-        run: |
-          dirs=${{ toJSON(steps.envs_changes.outputs.changes) }}
-          if [ ${{ github.base_ref }} == 'main' ]; then
-            env_type='prod'
-          elif [ ${{ github.base_ref }} == 'develop' ]; then
-            env_type='dev'
-          else
-            echo "Unsupported base_ref: ${{ github.base_ref }}" >&2
-            exit 1
-          fi
+      #- name: Filter changed envs dirs
+       # id: filter_changed_envs_dirs
+        #run: |
+         # dirs=${{ toJSON(steps.envs_changes.outputs.changes) }}
+          #if [ ${{ github.base_ref }} == 'main' ]; then
+           # env_type='prod'
+          #elif [ ${{ github.base_ref }} == 'develop' ]; then
+          #  env_type='dev'
+          #else
+           # echo "Unsupported base_ref: ${{ github.base_ref }}" >&2
+            #exit 1
+          #fi
 
-          env_changed_dirs=$( echo "${dirs}" | jq '.[]' | grep $env_type | jq -sc )
-          echo "envs_changed_dirs=${env_changed_dirs}" >> $GITHUB_OUTPUT
+          #env_changed_dirs=$( echo "${dirs}" | jq '.[]' | grep $env_type | jq -sc )
+          #echo "envs_changed_dirs=${env_changed_dirs}" >> $GITHUB_OUTPUT
 
   modules-ci:
     needs: setup
