@@ -127,6 +127,6 @@ jobs:
 
   notify-finished:
     if: always()
-    needs: [modules-ci, envs-ci]
+    needs: [modules-ci]
     uses: ./.github/workflows/_notify_finished.yaml
     secrets: inherit
