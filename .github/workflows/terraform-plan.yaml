@@ -65,7 +65,7 @@ jobs:
 
   modules-ci:
     needs: setup
-    if: needs.setup.outputs.modules_changed_dirs != '[]'
+    #if: needs.setup.outputs.modules_changed_dirs != '[]'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
