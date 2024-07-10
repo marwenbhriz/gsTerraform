@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   notify-started:
-    uses: ./.github/workflows/_notify_started.yml
+    uses: ./.github/workflows/_notify_started.yaml
     secrets: inherit
 
   setup:
