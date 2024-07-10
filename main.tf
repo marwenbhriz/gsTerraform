@@ -33,3 +33,15 @@ module "gcs" {
   source       = "./modules/gcs"
   project_region = var.accounts.region
 }
+
+// import gke module
+module "gke" {
+  source       = "./modules/gke"
+  project_name = var.accounts.project
+  project_region = var.accounts.region
+  network = module.network.network
+  subnetwork = module.network.subnetwork
+  topic_id = module.pubsub.topic_id
+
+  depends_on = [ module.pubsub, module.network ]
+}
