@@ -16,6 +16,10 @@ permissions:
   actions: read
 
 jobs:
+  notify-started:
+    uses: ./.github/workflows/_notify_started.yaml
+    secrets: inherit
+    
   terraform_plan:
     runs-on: ubuntu-latest
     steps:
@@ -26,6 +30,23 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.2.9
+
+      #- name: setup tflint
+        #env:
+          #TFCMT_VERSION: v3.4.1
+        #run: |
+          #wget "https://github.com/suzuki-shunsuke/tfcmt/releases/download/${TFCMT_VERSION}/tfcmt_linux_amd64.tar.gz" -O /tmp/tfcmt.tar.gz
+          #tar xzf /tmp/tfcmt.tar.gz -C /tmp
+          #mv /tmp/tfcmt /usr/local/bin
+          #tfcmt --version
+        #run: |
+          #tflint --config $GITHUB_WORKSPACE/.tflint.hcl --init
+          #tflint --config $GITHUB_WORKSPACE/.tflint.hcl --format=checkstyle | \
+          #reviewdog -f=checkstyle \
+          #          -name="tflint" \
+          #          -reporter=github-pr-review \
+          #          -filter-mode=nofilter \
+          #          -fail-on-error \
 
       - name: setup tfcmt
         env:
