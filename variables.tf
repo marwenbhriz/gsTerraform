@@ -4,7 +4,7 @@ variable "accounts" {
   default = {
     project  = "grasys-study"
     region   = "asia-northeast1"
-    zone     = [ "asia-northeast1-a", "asia-northeast1-b", "asia-northeast1-c" ],
+    zone     = "asia-northeast1-a",
     location = "ASIA"
   }
 }
