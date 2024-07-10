@@ -3,8 +3,7 @@ on:
   workflow_call:
 
 env:
-  SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
-  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
   slack:
@@ -13,9 +12,8 @@ jobs:
       - name: Send started notification to slack
         uses: slackapi/slack-github-action@v1.23.0
         env:
-          SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
         with:
-          channel-id: ${{ env.SLACK_CHANNEL_ID }}
           payload: |
             {
               "text": ":bell: Workflow ${{ github.workflow }} #${{github.run_number}} was triggered by ${{ github.event.sender.login }}",
