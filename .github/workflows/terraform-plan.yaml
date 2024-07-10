@@ -122,11 +122,11 @@ jobs:
       
       - name: Terraform plan
         working-directory: modules/${{ matrix.changed_dir }}
-        run: terraform plan
+        run: terraform plan $GITHUB_WORKSPACE/.github/scripts/tfwrapper.sh
 
 
-  notify-finished:
-    if: always()
-    needs: [modules-ci]
-    uses: ./.github/workflows/_notify_finished.yaml
-    secrets: inherit
+  #notify-finished:
+   # if: always()
+    #needs: [modules-ci]
+    #uses: ./.github/workflows/_notify_finished.yaml
+    #secrets: inherit
