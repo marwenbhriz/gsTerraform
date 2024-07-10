@@ -56,8 +56,8 @@ jobs:
 
       
 
-  modules-ci:
-    needs: setup
+  terraform-plan:
+    needs: notify-started
     #if: needs.setup.outputs.modules_changed_dirs != '[]'
     runs-on: ubuntu-latest
     #strategy:
@@ -98,6 +98,6 @@ jobs:
 
   notify-finished:
     if: always()
-    needs: [modules-ci]
+    needs: terraform-plan
     uses: ./.github/workflows/_notify_finished.yaml
     secrets: inherit
