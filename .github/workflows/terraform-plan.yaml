@@ -63,12 +63,6 @@ jobs:
           mv /tmp/tfcmt /usr/local/bin
           tfcmt --version
 
-      - run: terraform init
-      - name: terraform plan
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: tfcmt plan -patch -- terraform plan -no-color -input=false
-
   modules-ci:
     needs: setup
     if: needs.setup.outputs.modules_changed_dirs != '[]'
@@ -80,6 +74,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: terraform init
+        run: terraform init
+
+      - name: terraform plan
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: tfcmt plan -patch -- terraform plan -no-color -input=false
+
 
   notify-finished:
     if: always()
