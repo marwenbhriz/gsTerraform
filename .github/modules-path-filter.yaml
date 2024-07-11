@@ -1,5 +1,11 @@
 hello:
   - 'modules/hello/**'
 
-pubsub:
-  - 'modules/pubsub/**'
+address:
+  - 'modules/address/**'
+
+gcr:
+  - 'modules/gcr/**'
+
+network:
+  - 'modules/network/**'

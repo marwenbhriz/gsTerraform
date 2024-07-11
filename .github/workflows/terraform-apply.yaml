@@ -67,10 +67,10 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: terraform plan 
 
-      - name: Terraform destroy
-        run: terraform destroy -auto-approve
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+      #- name: Terraform Apply
+        #run: terraform apply -auto-approve
+        #env:
+          #GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
   notify-finished:
     if: always()
