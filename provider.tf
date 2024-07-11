@@ -1,7 +1,7 @@
 terraform {
   required_version = ">=0.1"
   backend "gcs" {
-    bucket = "terraform-files"
+    bucket = "terraform-githubactions"
     prefix = "terraform-resources/"
   }
   required_providers {
