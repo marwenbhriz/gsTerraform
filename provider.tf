@@ -1,5 +1,9 @@
 terraform {
   required_version = ">=0.1"
+  backend "gcs" {
+    bucket = "terraform-files"
+    prefix = "terraform-resources/"
+  }
   required_providers {
     tls = {
       source = "hashicorp/tls"
