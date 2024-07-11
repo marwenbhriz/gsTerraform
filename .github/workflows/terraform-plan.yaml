@@ -33,14 +33,6 @@ jobs:
         with:
           filters: .github/modules-path-filter.yaml
 
-      #- name: Create & commit diagram with PR
-        #uses: ./
-        #with:
-          #plan-files: ../../
-          #inframap-flags: --clean=true --external-nodes=true --connections=false --show-icons=true
-          #output-filename: docs/plan.png
-          #pr-comment: true
-
       - name: setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -55,13 +47,13 @@ jobs:
           mv /tmp/tfcmt /usr/local/bin
           tfcmt --version
 
-      - name: Install inframap & Graphviz
-        shell: bash
+      #- name: Install inframap & Graphviz
+        #shell: bash
         #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
-        run: |
-          curl -L "https://github.com/cycloidio/inframap/releases/download/v${{ inputs.inframap-version }}/inframap-linux-amd64.tar.gz" | tar -xz \
-            && mv inframap-linux-amd64 inframap
-          sudo apt install graphviz
+        #run: |
+          #curl -L "https://github.com/cycloidio/inframap/releases/download/v${{ inputs.inframap-version }}/inframap-linux-amd64.tar.gz" | tar -xz \
+            #&& mv inframap-linux-amd64 inframap
+          #sudo apt install graphviz
 
       - name: terraform init
         run: terraform init

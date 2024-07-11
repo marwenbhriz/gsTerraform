@@ -1,11 +1,11 @@
 hello:
-  - 'modules/hello/**'
+  - 'terraform/modules/hello/**'
 
 address:
-  - 'modules/address/**'
+  - 'terraform/modules/address/**'
 
 gcr:
-  - 'modules/gcr/**'
+  - 'terraform/modules/gcr/**'
 
 network:
-  - 'modules/network/**'
+  - 'terraform/modules/network/**'
