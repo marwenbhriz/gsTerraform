@@ -68,36 +68,36 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
-      - name: Generate diagram
+      #- name: Generate diagram
         #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
-        shell: bash
-        run: |
-          if [ ! -d $(dirname ${{ inputs.output-filename }}) ]; then
-            mkdir -p $(dirname ${{ inputs.output-filename }})
-          fi
-          ./inframap generate ${{ inputs.plan-files}} ${{ inputs.inframap-flags }} | dot -Tpng > ${{ inputs.output-filename }}
+        #shell: bash
+        #run: |
+          #if [ ! -d $(dirname ${{ inputs.output-filename }}) ]; then
+            #mkdir -p $(dirname ${{ inputs.output-filename }})
+          #fi
+          #./inframap generate ${{ inputs.plan-files}} ${{ inputs.inframap-flags }} | dot -Tpng > ${{ inputs.output-filename }}
 
-      - name: Git Auto Commit
+      #- name: Git Auto Commit
         #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
-        uses: stefanzweifel/git-auto-commit-action@v5.0.0
-        with:
-          commit_user_email: ${{ inputs.commit-email }}
-          commit_message: ${{ inputs.commit-message }}
-          file_pattern: ${{ inputs.output-filename }}
+        #uses: stefanzweifel/git-auto-commit-action@v5.0.0
+        #with:
+          #commit_user_email: ${{ inputs.commit-email }}
+          #commit_message: ${{ inputs.commit-message }}
+          #file_pattern: ${{ inputs.output-filename }}
 
-      - name: Add PR comment
+      #- name: Add PR comment
         #if: ${{ steps.diff.outputs.updates == 'true' && inputs.pr-comment == 'true' }}
-        uses: jdvr/action-add-comment@main
-        env:
-          GITHUB_TOKEN: "${{ inputs.token }}"
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        with:
-          comment: |
+        #uses: jdvr/action-add-comment@main
+        #env:
+          #GITHUB_TOKEN: "${{ inputs.token }}"
+          #GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        #with:
+          #comment: |
             ## Summary of Terraform plan
 
-            ![Terraform plan](/$GITHUB_REPOSITORY/blob/$GITHUB_HEAD_REF/${{ inputs.output-filename }}?raw=true)
+            #![Terraform plan](/$GITHUB_REPOSITORY/blob/$GITHUB_HEAD_REF/${{ inputs.output-filename }}?raw=true)
 
-            <sub>committed to ${{ inputs.output-filename }}</sub>
+            #<sub>committed to ${{ inputs.output-filename }}</sub>
 
       - name: Terraform Validate
         id: validate
