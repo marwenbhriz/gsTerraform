@@ -57,7 +57,7 @@ jobs:
 
       - name: Install inframap & Graphviz
         shell: bash
-        if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
+        #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
         run: |
           curl -L "https://github.com/cycloidio/inframap/releases/download/v${{ inputs.inframap-version }}/inframap-linux-amd64.tar.gz" | tar -xz \
             && mv inframap-linux-amd64 inframap
@@ -69,7 +69,7 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
       - name: Generate diagram
-        if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
+        #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
         shell: bash
         run: |
           if [ ! -d $(dirname ${{ inputs.output-filename }}) ]; then
@@ -78,7 +78,7 @@ jobs:
           ./inframap generate ${{ inputs.plan-files}} ${{ inputs.inframap-flags }} | dot -Tpng > ${{ inputs.output-filename }}
 
       - name: Git Auto Commit
-        if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
+        #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
           commit_user_email: ${{ inputs.commit-email }}
@@ -86,7 +86,7 @@ jobs:
           file_pattern: ${{ inputs.output-filename }}
 
       - name: Add PR comment
-        if: ${{ steps.diff.outputs.updates == 'true' && inputs.pr-comment == 'true' }}
+        #if: ${{ steps.diff.outputs.updates == 'true' && inputs.pr-comment == 'true' }}
         uses: jdvr/action-add-comment@main
         env:
           GITHUB_TOKEN: "${{ inputs.token }}"
