@@ -33,14 +33,6 @@ jobs:
         with:
           filters: .github/modules-path-filter.yaml
 
-      #- name: Create & commit diagram with PR
-        #uses: ./
-        #with:
-          #plan-files: ../../
-          #inframap-flags: --clean=true --external-nodes=true --connections=false --show-icons=true
-          #output-filename: docs/plan.png
-          #pr-comment: true
-
       - name: setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -55,49 +47,49 @@ jobs:
           mv /tmp/tfcmt /usr/local/bin
           tfcmt --version
 
-      - name: Install inframap & Graphviz
-        shell: bash
-        if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
-        run: |
-          curl -L "https://github.com/cycloidio/inframap/releases/download/v${{ inputs.inframap-version }}/inframap-linux-amd64.tar.gz" | tar -xz \
-            && mv inframap-linux-amd64 inframap
-          sudo apt install graphviz
+      #- name: Install inframap & Graphviz
+        #shell: bash
+        #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
+        #run: |
+          #curl -L "https://github.com/cycloidio/inframap/releases/download/v${{ inputs.inframap-version }}/inframap-linux-amd64.tar.gz" | tar -xz \
+            #&& mv inframap-linux-amd64 inframap
+          #sudo apt install graphviz
 
       - name: terraform init
         run: terraform init
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
-      - name: Generate diagram
-        if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
-        shell: bash
-        run: |
-          if [ ! -d $(dirname ${{ inputs.output-filename }}) ]; then
-            mkdir -p $(dirname ${{ inputs.output-filename }})
-          fi
-          ./inframap generate ${{ inputs.plan-files}} ${{ inputs.inframap-flags }} | dot -Tpng > ${{ inputs.output-filename }}
+      #- name: Generate diagram
+        #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
+        #shell: bash
+        #run: |
+          #if [ ! -d $(dirname ${{ inputs.output-filename }}) ]; then
+            #mkdir -p $(dirname ${{ inputs.output-filename }})
+          #fi
+          #./inframap generate ${{ inputs.plan-files}} ${{ inputs.inframap-flags }} | dot -Tpng > ${{ inputs.output-filename }}
 
-      - name: Git Auto Commit
-        if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
-        uses: stefanzweifel/git-auto-commit-action@v5.0.0
-        with:
-          commit_user_email: ${{ inputs.commit-email }}
-          commit_message: ${{ inputs.commit-message }}
-          file_pattern: ${{ inputs.output-filename }}
+      #- name: Git Auto Commit
+        #if: ${{ steps.diff.outputs.updates == 'true' || inputs.always-run == 'true' }}
+        #uses: stefanzweifel/git-auto-commit-action@v5.0.0
+        #with:
+          #commit_user_email: ${{ inputs.commit-email }}
+          #commit_message: ${{ inputs.commit-message }}
+          #file_pattern: ${{ inputs.output-filename }}
 
-      - name: Add PR comment
-        if: ${{ steps.diff.outputs.updates == 'true' && inputs.pr-comment == 'true' }}
-        uses: jdvr/action-add-comment@main
-        env:
-          GITHUB_TOKEN: "${{ inputs.token }}"
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        with:
-          comment: |
+      #- name: Add PR comment
+        #if: ${{ steps.diff.outputs.updates == 'true' && inputs.pr-comment == 'true' }}
+        #uses: jdvr/action-add-comment@main
+        #env:
+          #GITHUB_TOKEN: "${{ inputs.token }}"
+          #GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        #with:
+          #comment: |
             ## Summary of Terraform plan
 
-            ![Terraform plan](/$GITHUB_REPOSITORY/blob/$GITHUB_HEAD_REF/${{ inputs.output-filename }}?raw=true)
+            #![Terraform plan](/$GITHUB_REPOSITORY/blob/$GITHUB_HEAD_REF/${{ inputs.output-filename }}?raw=true)
 
-            <sub>committed to ${{ inputs.output-filename }}</sub>
+            #<sub>committed to ${{ inputs.output-filename }}</sub>
 
       - name: Terraform Validate
         id: validate
